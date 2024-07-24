@@ -12,6 +12,8 @@
     <div id="response"></div>
 </form>
 
+<script>
+    
 function startDictation() {
   var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
@@ -57,7 +59,7 @@ function makeResponse() {
 
 // Déclenche makeResponse toutes les secondes (ou ajustez la fréquence selon vos besoins)
 var t = setInterval(makeResponse, 1000);
-<script src="script.js"></script>
+</script>
 
 </body>
 </html>
