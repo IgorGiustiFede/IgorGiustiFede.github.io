@@ -1,19 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Speech Recognition Example</title>
+    <title>Reconnaissance Vocale</title>
 </head>
 <body>
 
-<button onclick="startDictation()">Start Dictation</button>
+<button onclick="startDictation()">Démarrer la Dictée</button>
 <form id="labnol">
-    <input type="text" id="transcript" placeholder="Speech will be transcribed here...">
+    <input type="text" id="transcript" name="transcript" placeholder="La parole sera transcrite ici...">
     <div id="response"></div>
 </form>
 
-<script>
 function startDictation() {
   var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
@@ -22,40 +20,44 @@ function startDictation() {
 
     recognition.continuous = false;
     recognition.interimResults = false;
-
     recognition.lang = "fr-FR";
+    
     recognition.start();
 
-    recognition.onresult = function(e) {
-      // Mettre à jour le champ transcript avec le texte reconnu
-      document.getElementById('transcript').value = e.results[0][0].transcript;
-      recognition.stop();
-      //document.getElementById('labnol').submit();
+    recognition.onstart = function() {
+      console.log('Reconnaissance vocale commencée');
     };
 
-    recognition.onerror = function(e) {
+    recognition.onresult = function(event) {
+      console.log('Résultat reçu: ', event.results[0][0].transcript);
+      document.getElementById('transcript').value = event.results[0][0].transcript;
+      document.getElementById('response').innerHTML = event.results[0][0].transcript;
       recognition.stop();
+    };
+
+    recognition.onerror = function(event) {
+      console.log('Erreur de reconnaissance vocale: ', event.error);
+      recognition.stop();
+    };
+
+    recognition.onend = function() {
+      console.log('Reconnaissance vocale terminée');
     };
   } else {
-    console.log("Speech Recognition not supported in this browser.");
+    console.log("API de reconnaissance vocale non supportée dans ce navigateur.");
   }
 }
-
-
-
 
 function makeResponse() {
   var text = document.getElementById("transcript");
   var res = document.getElementById("response");
 
-  // Mettre à jour le champ texte avec le résultat de la transcription
   res.innerHTML = text.value;
 }
 
 // Déclenche makeResponse toutes les secondes (ou ajustez la fréquence selon vos besoins)
 var t = setInterval(makeResponse, 1000);
-  
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
