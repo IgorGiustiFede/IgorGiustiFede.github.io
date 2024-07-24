@@ -30,7 +30,7 @@ function startDictation() {
       // Mettre à jour le champ transcript avec le texte reconnu
       document.getElementById('transcript').value = e.results[0][0].transcript;
       recognition.stop();
-      document.getElementById('labnol').submit();
+      //document.getElementById('labnol').submit();
     };
 
     recognition.onerror = function(e) {
